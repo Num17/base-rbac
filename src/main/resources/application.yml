@@ -1,0 +1,18 @@
+server:
+  servlet:
+    context-path: /atcrowdfunding
+  port: 80
+
+#库配置
+
+
+database:
+  atcrowdfunding:
+    driver: com.mysql.jdbc.Driver
+    username: root
+    password: 123
+    url: jdbc:mysql://localhost:3306/db_base?useSSL=false
+spring:
+  thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
