@@ -33,46 +33,4 @@
           is_deleted = 0
     </select>
 
-    <select id="queryUrlsByRoleIds" resultType="string">
-        select
-          url
-        from
-          <include refid="Base_Table"/>
-        where
-          resource_id
-        in
-          (
-            select
-              resource_id
-            from
-              t_role_resource
-            where
-              role_id
-            in
-            <foreach collection="roleIds" open="(" close=")" separator="," item="item">
-                #{item,jdbcType=VARCHAR}
-            </foreach>
-          )
-    </select>
-
-    <select id="queryUrlsByUsername" resultType="string">
-        select
-          url
-        from
-          <include refid="Base_Table"/>
-        where
-          resource_id
-        in
-        (
-            select
-              resource_id
-            from
-              t_account_resource
-            where
-              username = #{username,jdbcType=VARCHAR}
-            and
-              is_deleted = 0
-        )
-    </select>
-
 </mapper>

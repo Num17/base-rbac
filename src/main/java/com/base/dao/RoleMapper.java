@@ -1,11 +1,13 @@
 package com.base.dao;
 
 import com.base.domain.Role;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Set;
 
+@Mapper
 public interface RoleMapper {
 
 

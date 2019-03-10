@@ -37,11 +37,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
@@ -99,15 +94,15 @@
         <!--静态资源打包-->
         <resources>
             <!--打包resources下的所有配置文件-->
-            <!--<resource>-->
-            <!--<directory>src/main/resources</directory>-->
-            <!--<includes>-->
-            <!--<include>**/*</include>-->
-            <!--</includes>-->
-            <!--<excludes>-->
-            <!--<exclude>/mybatis/generator-config.xml</exclude>-->
-            <!--</excludes>-->
-            <!--</resource>-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>/mybatis/generator-config.xml</exclude>
+                </excludes>
+            </resource>
             <!--打包java下的所有.xml配置文件-->
             <resource>
                 <directory>src/main/java</directory>
