@@ -22,6 +22,19 @@
         t_role
     </sql>
 
+    <select id="queryRoleListByUrls" resultType="string">
+        select
+          role_id
+        from
+          t_role_resource
+        where
+          is_deleted = 0
+        and
+          <foreach collection="urls" item="item" separator="," open="(" close=")">
+              #{item,jdbcType=VARCHAR}
+          </foreach>
+    </select>
+
     <select id="queryRoleIdsByUsername" resultType="string">
         select
           role_id

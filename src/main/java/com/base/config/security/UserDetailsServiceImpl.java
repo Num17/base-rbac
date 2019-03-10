@@ -1,4 +1,4 @@
-package com.base.security;
+package com.base.config.security;
 
 import com.base.domain.Account;
 import com.base.domain.Role;
@@ -18,8 +18,6 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    private static final String ROLE_PERFIX = "ROLE_";
 
     private AccountService accountService;
     private RoleService roleService;
@@ -53,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<Role> roles = roleService.getRoleListByUserName(username);
         final Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
         roles.forEach((e) -> { //TODO lambda表达式优化
-            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(ROLE_PERFIX + e.getRoleId()));
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(e.getRoleId()));
         });
 
         return simpleGrantedAuthorities;

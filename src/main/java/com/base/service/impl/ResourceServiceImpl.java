@@ -1,12 +1,14 @@
 package com.base.service.impl;
 
 import com.base.dao.ResourceMapper;
+import com.base.domain.Resource;
 import com.base.service.ResourceService;
 import com.base.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,6 +25,11 @@ public class ResourceServiceImpl implements ResourceService {
         }
 
         return urls;
+    }
+
+    @Override
+    public List<Resource> getAllResource() {
+        return resourceMapper.queryAllResource();
     }
 
     @Override

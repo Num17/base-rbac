@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.dao.RoleResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.base.domain.RoleResource">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+        <result column="resource_id" property="resourceId" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BOOLEAN"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id,
+      role_id,
+      resource_id,
+      is_deleted,
+      create_time
+    </sql>
+
+    <sql id="Base_Table">
+        t_role_resource
+    </sql>
+
+    <select id="queryRoleResourceByResourceIds" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List"/>
+        from
+          <include refid="Base_Table"/>
+        where
+          is_deleted = 0
+        and
+          <foreach collection="resourceIds" item="item" separator="," open="(" close=")">
+              #{item,jdbcType=VARCHAR}
+          </foreach>
+    </select>
+
+</mapper>

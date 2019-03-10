@@ -1,4 +1,4 @@
-package com.base.security;
+package com.base.config.security;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;

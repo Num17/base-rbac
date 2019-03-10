@@ -1,6 +1,6 @@
 package com.base.service.impl;
 
-import com.base.Manager.ResourceManager;
+import com.base.manager.ResourceManager;
 import com.base.service.RBACService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

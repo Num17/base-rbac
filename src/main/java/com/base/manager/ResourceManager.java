@@ -1,4 +1,4 @@
-package com.base.Manager;
+package com.base.manager;
 
 import com.base.service.ResourceService;
 import com.base.service.RoleService;

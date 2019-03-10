@@ -11,4 +11,6 @@ public interface RoleService {
     List<Role> getRoleListByUserName(String username);
 
     Set<String> getRoleIdsByUserName(String username);
+
+    Set<String> getRoleSetByUrls(Set<String> urls);
 }
