@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 登录失败处理
+ */
 @Component
 public class LoginAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 

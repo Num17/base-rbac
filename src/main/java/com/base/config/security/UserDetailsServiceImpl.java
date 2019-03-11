@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<Role> roles = roleService.getRoleListByUserName(username);
         final Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
         roles.forEach((e) -> { //TODO lambda表达式优化
-            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(e.getRoleId()));
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + e.getRoleId()));
         });
 
         return simpleGrantedAuthorities;

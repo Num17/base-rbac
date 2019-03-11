@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 登录成功
+ */
 @Component
 public class LoginAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
@@ -24,8 +27,8 @@ public class LoginAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
                                         Authentication authentication) throws ServletException, IOException {
 
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        response.setContentType(SecurityConstant.ENCODE);
+        response.setCharacterEncoding(SecurityConstant.ENCODE);
+        response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();

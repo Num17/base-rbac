@@ -51,7 +51,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 Collection<ConfigAttribute> configAttributes = resourceMap.get(url);
 
                 for (RoleResource roleResource : roleResourceList) {
-                    configAttributes.add(new SecurityConfig(roleResource.getRoleId()));
+                    configAttributes.add(new SecurityConfig("ROLE_" + roleResource.getRoleId()));
                 }
             }
 

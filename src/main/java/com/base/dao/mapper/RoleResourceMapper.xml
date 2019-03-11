@@ -30,6 +30,8 @@
         where
           is_deleted = 0
         and
+          resource_id
+        in
           <foreach collection="resourceIds" item="item" separator="," open="(" close=")">
               #{item,jdbcType=VARCHAR}
           </foreach>

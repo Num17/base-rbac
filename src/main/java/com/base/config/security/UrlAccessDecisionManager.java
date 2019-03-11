@@ -8,11 +8,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-//@Component
+@Component
 public class UrlAccessDecisionManager implements AccessDecisionManager {
 
     @Override
@@ -46,11 +47,11 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
 
     @Override
     public boolean supports(ConfigAttribute configAttribute) {
-        return false;
+        return Boolean.TRUE;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+        return Boolean.TRUE;
     }
 }

@@ -2,9 +2,11 @@ package com.base.config;
 
 import com.base.config.security.LoginAuthenctiationFailureHandler;
 import com.base.config.security.LoginAuthenticationSuccessHandler;
+import com.base.config.security.UrlFilterInvocationSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -22,17 +25,14 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String REMEMBER_ME = "remember-me";
-    private static final String LOGIN_PAGE = "/user/login";
-    private static final String LOGIN_URL = "/dologin";
-
     private static final int TOKEN_VALIDITY_SECONDS = 300;
-
 
     private UserDetailsService userDetailsService;
 
     private LoginAuthenctiationFailureHandler loginAuthenctiationFailureHandler;
     private LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler;
 
+    private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
 
     private DataSource dataSource;   //是在application.properites
 
@@ -59,24 +59,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
-//                .loginPage(LOGIN_PAGE).loginProcessingUrl(LOGIN_URL)
-                    .successHandler(loginAuthenticationSuccessHandler)
-                    .failureHandler(loginAuthenctiationFailureHandler)
-                    .permitAll()  //表单登录，permitAll()表示这个不需要验证 登录页面，登录失败页面
+                .successHandler(loginAuthenticationSuccessHandler)
+                .failureHandler(loginAuthenctiationFailureHandler)
+                .permitAll()  //表单登录，permitAll()表示这个不需要验证 登录页面，登录失败页面
                 .and()
-                    .logout()
-                    .permitAll()
+                .logout()
+                .permitAll()
                 .and()
-                    .rememberMe()
-                    .rememberMeParameter(REMEMBER_ME).userDetailsService(userDetailsService)
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
+                .rememberMe()
+                .rememberMeParameter(REMEMBER_ME).userDetailsService(userDetailsService)
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
                 .and()
-                    .authorizeRequests()
-                    .anyRequest().authenticated()//必须经过认证以后才能访问
+                .authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+//                            o.setAccessDecisionManager(urlAccessDecisionManager);
+                        return o;
+                    }
+                })
+                .anyRequest().authenticated()//必须经过认证以后才能访问
                 .and()
-                    .csrf()
-                    .disable();
+                .csrf()
+                .disable();
     }
 
 
@@ -104,5 +111,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void setLoginAuthenticationSuccessHandler(LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler) {
         this.loginAuthenticationSuccessHandler = loginAuthenticationSuccessHandler;
+    }
+
+    @Autowired
+    public void setUrlFilterInvocationSecurityMetadataSource(UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource) {
+        this.urlFilterInvocationSecurityMetadataSource = urlFilterInvocationSecurityMetadataSource;
     }
 }
