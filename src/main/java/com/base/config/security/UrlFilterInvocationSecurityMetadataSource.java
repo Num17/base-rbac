@@ -29,6 +29,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
     // 在Web服务器启动时，提取系统中的所有权限
+    //TODO 后续权限放入redis之中,出现权限变更则动态实时更新
     private void loadResourceDefine() {
         //应当是资源为key， 权限为value。 资源通常为url， 权限就是那些以ROLE_为前缀的角色。 一个资源可以由多个权限来访问。
         List<Resource> allResource = resourceService.getAllResource();

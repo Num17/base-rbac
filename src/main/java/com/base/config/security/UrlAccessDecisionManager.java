@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Iterator;
 
-@Component
+//@Component
 public class UrlAccessDecisionManager implements AccessDecisionManager {
 
     @Override
@@ -27,7 +27,7 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
             String needRole = configAttribute.getAttribute();
             if (SecurityConstant.NOT_LOGGED_IN.equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
-                    throw new BadCredentialsException("未登录");
+                    throw new BadCredentialsException("未登录!");
                 }
 
                 return;

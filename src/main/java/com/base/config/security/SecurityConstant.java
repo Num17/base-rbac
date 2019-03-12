@@ -9,7 +9,7 @@ class SecurityConstant {
 
     static final String JSON_CONTENT_TYPE = "application/json; charset=utf-8";
 
-    //TODO 位置应当翻入项目包常量类中
+    //TODO 位置应当放入项目包常量类中
     static final String ENCODE = "UTF-8";
 
 }
