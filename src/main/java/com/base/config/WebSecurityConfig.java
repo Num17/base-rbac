@@ -1,5 +1,8 @@
 package com.base.config;
 
+import com.base.config.handler.AuthenticationAccessDeniedHandler;
+import com.base.config.handler.LoginAuthenctiationFailureHandler;
+import com.base.config.handler.LoginAuthenticationSuccessHandler;
 import com.base.config.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
