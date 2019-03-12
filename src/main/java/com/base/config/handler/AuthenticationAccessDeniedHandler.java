@@ -2,6 +2,7 @@ package com.base.config.handler;
 
 
 import com.base.bean.BaseResponse;
+import com.base.config.security.SecurityConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,8 @@ public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
         PrintWriter out = resp.getWriter();
         out.write(error);
         out.close();
+        out.flush();
+
     }
 
 }

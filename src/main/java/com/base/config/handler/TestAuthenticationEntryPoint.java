@@ -3,11 +3,8 @@ package com.base.config.handler;
 import com.base.bean.BaseResponse;
 import com.base.config.security.SecurityConstant;
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,18 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * 登录失败处理
- */
-@Component
-public class LoginAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-
-    private static Logger logger = LoggerFactory.getLogger(LoginAuthenctiationFailureHandler.class);
+public class TestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
-
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
         response.setContentType(SecurityConstant.ENCODE);
@@ -40,7 +29,5 @@ public class LoginAuthenctiationFailureHandler extends SimpleUrlAuthenticationFa
         out.write(error);
         out.close();
         out.flush();
-
     }
-
 }

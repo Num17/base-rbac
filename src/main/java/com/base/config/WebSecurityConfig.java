@@ -3,7 +3,9 @@ package com.base.config;
 import com.base.config.handler.AuthenticationAccessDeniedHandler;
 import com.base.config.handler.LoginAuthenctiationFailureHandler;
 import com.base.config.handler.LoginAuthenticationSuccessHandler;
-import com.base.config.security.*;
+import com.base.config.handler.TestAuthenticationEntryPoint;
+import com.base.config.security.UrlFilterInvocationSecurityMetadataSource;
+import com.base.config.security.UrlFilterSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -84,8 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //自定义过滤器
         UrlFilterSecurityInterceptor filterSecurityInterceptor =
-                new UrlFilterSecurityInterceptor(securityMetadataSource,
-                        accessDecisionManager(), authenticationManagerBean());
+                new UrlFilterSecurityInterceptor(securityMetadataSource, accessDecisionManager(), authenticationManagerBean());
 
         //加入自定定义的授权过滤器
         http.addFilterAt(filterSecurityInterceptor, FilterSecurityInterceptor.class);
@@ -98,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(authenticationAccessDeniedHandler) //权限不足处理
+//                .authenticationEntryPoint(new TestAuthenticationEntryPoint())
                 .and()
                 .logout()
                 .permitAll()
