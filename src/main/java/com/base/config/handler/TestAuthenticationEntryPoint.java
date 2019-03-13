@@ -2,6 +2,7 @@ package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
 import com.base.config.security.SecurityConstant;
+import com.base.constant.AppConstant;
 import com.google.gson.Gson;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -18,7 +19,7 @@ public class TestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        response.setContentType(SecurityConstant.ENCODE);
+        response.setContentType(AppConstant.ENCODE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();

@@ -3,6 +3,7 @@ package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
 import com.base.config.security.SecurityConstant;
+import com.base.constant.AppConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
         resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         resp.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        resp.setContentType(SecurityConstant.ENCODE);
+        resp.setContentType(AppConstant.ENCODE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();

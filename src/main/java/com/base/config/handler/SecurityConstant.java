@@ -1,8 +1,5 @@
-package com.base.config.security;
+package com.base.config.handler;
 
-/**
- * 本包中的常量类
- */
 public class SecurityConstant {
 
     public static final String NOT_LOGGED_IN = "ROLE_LOGIN";

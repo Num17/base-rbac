@@ -2,6 +2,7 @@ package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
 import com.base.config.security.SecurityConstant;
+import com.base.constant.AppConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class LoginAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
                                         Authentication authentication) throws ServletException, IOException {
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setCharacterEncoding(SecurityConstant.ENCODE);
+        response.setCharacterEncoding(AppConstant.ENCODE);
         response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
 
         //TODO 后续优化在JsonUtil内
