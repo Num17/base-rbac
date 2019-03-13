@@ -28,8 +28,8 @@ public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
         resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        resp.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        resp.setContentType(AppConstant.ENCODE);
+        resp.setCharacterEncoding(AppConstant.ENCODE);
+        resp.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();
