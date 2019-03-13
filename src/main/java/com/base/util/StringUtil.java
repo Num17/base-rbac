@@ -5,6 +5,18 @@ public class StringUtil {
     public static final String EMPTY = "";
     public static final String SPACE = " ";
 
+    public static String removeHeader(String str, String header) {
+        if (isEmpty(str) || isEmpty(header)) {
+            return EMPTY;
+        }
+
+        if (!str.startsWith(header)) {
+            return str;
+        }
+
+        return str.substring(header.length());
+    }
+
     /**
      * 去除字符串内所有空格
      */
