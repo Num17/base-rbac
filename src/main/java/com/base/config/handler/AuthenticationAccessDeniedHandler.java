@@ -2,7 +2,6 @@ package com.base.config.handler;
 
 
 import com.base.bean.BaseResponse;
-import com.base.config.security.SecurityConstant;
 import com.base.constant.AppConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;

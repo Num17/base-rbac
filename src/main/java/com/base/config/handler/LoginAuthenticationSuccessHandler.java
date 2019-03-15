@@ -2,11 +2,8 @@ package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
 import com.base.config.jwt.JWTUtil;
-import com.base.config.security.SecurityConstant;
 import com.base.constant.AppConstant;
 import com.google.gson.Gson;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 /**
  * 登录成功
@@ -33,7 +29,7 @@ public class LoginAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
                                         Authentication authentication) throws ServletException, IOException {
 
         String username = authentication.getName();
-        response.addHeader(JWTUtil.HEADER_TOKEN_KEY, JWTUtil.builderToken(username));
+        response.addHeader(SecurityConstant.HEADER, JWTUtil.builderToken(username));
         response.setStatus(HttpServletResponse.SC_OK);
         response.setCharacterEncoding(AppConstant.ENCODE);
         response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);

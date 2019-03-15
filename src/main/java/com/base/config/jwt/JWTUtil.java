@@ -1,5 +1,6 @@
 package com.base.config.jwt;
 
+import com.base.config.handler.SecurityConstant;
 import com.base.util.StringUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -9,10 +10,6 @@ import java.util.Date;
 
 public class JWTUtil {
 
-    public static final String HEADER_TOKEN_KEY = "_token";
-
-
-    private static final String TOKEN_SUFFIX = "Bearer ";
     private static final String SECRET = "MyJwtSecret";
     private static final int EXPIRATION = 7 * 24 * 60 * 60 * 1000;//有效期7天
 
@@ -28,7 +25,7 @@ public class JWTUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
-        return TOKEN_SUFFIX + token;
+        return SecurityConstant.TOKEN_SUFFIX + token;
     }
 
     /**
@@ -54,7 +51,7 @@ public class JWTUtil {
      *
      * @return username
      */
-    public static String getUserFromToken(String token) {
+    public static String getUsernameFromToken(String token) {
         Claims claims = getBody(token);
 
         return claims.getSubject();
@@ -62,7 +59,7 @@ public class JWTUtil {
 
     private static Claims getBody(String token) {
         return Jwts.parser().setSigningKey(SECRET)
-                .parseClaimsJws(StringUtil.removeHeader(token, TOKEN_SUFFIX))
+                .parseClaimsJws(StringUtil.removeHeader(token, SecurityConstant.TOKEN_SUFFIX))
                 .getBody();
     }
 

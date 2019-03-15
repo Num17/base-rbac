@@ -6,4 +6,18 @@ public class SecurityConstant {
 
     public static final String JSON_CONTENT_TYPE = "application/json; charset=utf-8";
 
+    public static final String HEADER = "authorization";
+
+    public static final String TOKEN_SUFFIX = "Bearer ";
+
+    public static final String AUTH_SUFFIX = "AUTH_";
+
+    public static final String REMEMBER_ME = "remember-me";
+
+    public static final int TOKEN_VALIDITY_SECONDS = 300;
+
+    public static final String LOGIN_URL = "/login";
+
+    public static final String LOGOUT_URL = "/logout";
+
 }

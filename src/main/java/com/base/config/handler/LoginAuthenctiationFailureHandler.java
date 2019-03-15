@@ -1,7 +1,6 @@
 package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
-import com.base.config.security.SecurityConstant;
 import com.base.constant.AppConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -29,8 +28,8 @@ public class LoginAuthenctiationFailureHandler extends SimpleUrlAuthenticationFa
                                         AuthenticationException exception) throws IOException, ServletException {
 
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        response.setContentType(AppConstant.ENCODE);
+        response.setCharacterEncoding(AppConstant.ENCODE);
+        response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();
