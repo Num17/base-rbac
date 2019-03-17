@@ -1,9 +1,9 @@
 package com.base.config.jwt;
 
 import com.base.config.handler.SecurityConstant;
-import com.base.config.handler.TokenIsExpiredException;
 import com.base.util.StringUtil;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,13 +23,14 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
         String header = request.getHeader(SecurityConstant.HEADER);
         if (StringUtil.isEmpty(header) || !header.startsWith(SecurityConstant.TOKEN_SUFFIX)) {
-            chain.doFilter(request, response);
-            return;
+//            chain.doFilter(request, response);
+//            return;
+            throw new BadCredentialsException("请登录!");
         }
 
         if (!JWTUtil.checkToken(header)) {
             //TODO 提示登录
-            throw new TokenIsExpiredException("请登录!");
+            throw new BadCredentialsException("凭证已失效!请重新登录!");
         }
 
         chain.doFilter(request, response);
