@@ -22,12 +22,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setCharacterEncoding(SecurityConstant.JSON_CONTENT_TYPE);
-        response.setContentType(AppConstant.ENCODE);
+        response.setCharacterEncoding(AppConstant.ENCODE);
+        response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
 
         //TODO 后续优化在JsonUtil内
         Gson gson = new Gson();
-        BaseResponse successResponse = BaseResponse.ERROR_RESPONSE;
+        BaseResponse successResponse = BaseResponse.newErrorResponse("未登录!point");
         String error = gson.toJson(successResponse);
 
         PrintWriter out = response.getWriter();
