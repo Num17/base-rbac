@@ -19,27 +19,27 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(
-        basePackages = {DataSourceAtcrowdfundingConfig.BASE_PACKAGE},
-        sqlSessionFactoryRef = DataSourceAtcrowdfundingConfig.SQL_SESSION_FACTORY)
-public class DataSourceAtcrowdfundingConfig {
+        basePackages = {DataSourceBaseConfig.BASE_PACKAGE},
+        sqlSessionFactoryRef = DataSourceBaseConfig.SQL_SESSION_FACTORY)
+public class DataSourceBaseConfig {
 
     static final String BASE_PACKAGE = "com.base.dao";
-    static final String SQL_SESSION_FACTORY = "sqlSessionFactoryAtcrowdfunding";
+    static final String SQL_SESSION_FACTORY = "sqlSessionFactoryBase";
 
-    private static final Logger logger = LoggerFactory.getLogger(DataSourceAtcrowdfundingConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataSourceBaseConfig.class);
     private static final String DATA_SOURCE_PROPERTY = "dataSourcePropertyAtcrowdfunding";
     private static final String MYBATIS_CONFIG = "classpath:mybatis/mybatis-config.xml";
     private static final String MYBATIS_MAPPERS = "classpath:com/base/dao/mapper/*.xml";
-    private static final String TX_MANAGER = "txManagerAtcrowdfundingn";
+    private static final String TX_MANAGER = "txManagerBase";
 
     @Primary
     @Bean(name = DATA_SOURCE_PROPERTY)
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource(
-            @Value("${database.atcrowdfunding.driver}") String driver,
-            @Value("${database.atcrowdfunding.username}") String username,
-            @Value("${database.atcrowdfunding.password}") String password,
-            @Value("${database.atcrowdfunding.url}") String url
+            @Value("${database.base.driver}") String driver,
+            @Value("${database.base.username}") String username,
+            @Value("${database.base.password}") String password,
+            @Value("${database.base.url}") String url
     ) {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUrl(url);

@@ -1,10 +1,13 @@
 package com.base.config.security;
 
+import com.base.config.handler.SecurityConstant;
 import com.base.domain.Resource;
 import com.base.domain.RoleResource;
+import com.base.redis.RedisService;
 import com.base.service.ResourceService;
 import com.base.service.RoleResourceService;
 import com.base.util.CollectionUtil;
+import com.base.util.JsonUtil;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -18,13 +21,18 @@ import java.util.stream.Collectors;
 @Component
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
+    private static final String URL_KEY = "url:role";
     private ResourceService resourceService;
     private RoleResourceService roleResourceService;
+    private RedisService redisService;
+    //TODO 已用redis替代
     private Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
 
-    public UrlFilterInvocationSecurityMetadataSource(ResourceService resourceService, RoleResourceService roleResourceService) {
+    public UrlFilterInvocationSecurityMetadataSource(ResourceService resourceService, RoleResourceService roleResourceService,
+                                                     RedisService redisService) {
         this.resourceService = resourceService;
         this.roleResourceService = roleResourceService;
+        this.redisService = redisService;
         loadResourceDefine();
     }
 
@@ -36,8 +44,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         Set<String> resourceIds = allResource.stream().map(Resource::getResourceId).collect(Collectors.toSet());
         List<RoleResource> roleResources = roleResourceService.getRoleResourceByResourceIds(resourceIds);
         Map<String, List<RoleResource>> resourceIdListMap = roleResources.stream().collect(Collectors.groupingBy(RoleResource::getResourceId));
-
-
+        Map<String, String> map = new HashMap<>();
         for (Resource resource : allResource) {
             String url = resource.getUrl();
 
@@ -52,11 +59,16 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 Collection<ConfigAttribute> configAttributes = resourceMap.get(url);
 
                 for (RoleResource roleResource : roleResourceList) {
-                    configAttributes.add(new SecurityConfig("ROLE_" + roleResource.getRoleId()));
+                    configAttributes.add(new SecurityConfig(SecurityConstant.ROLE_SUFFIX + roleResource.getRoleId()));
                 }
+
+                map.put(url, JsonUtil.toJson(configAttributes));
+
             }
 
         }
+
+        redisService.hashSetFromMap(URL_KEY, map);
 
     }
 
@@ -73,7 +85,14 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
             String url = iterator.next();
 
             if (antPathMatcher.match(url, requestUrl)) {
-                configAttributes = resourceMap.get(url);
+                String json = redisService.hashGet(URL_KEY, url);
+                List<SecurityConfig> securityConfigs = JsonUtil.parseJsonArray(json, SecurityConfig.class);
+                configAttributes = securityConfigs.stream().map((e) -> (ConfigAttribute) e).collect(Collectors.toList());
+
+                if (CollectionUtil.isEmpty(configAttributes)) {
+
+                    configAttributes = resourceMap.get(url);
+                }
                 break;
             }
         }

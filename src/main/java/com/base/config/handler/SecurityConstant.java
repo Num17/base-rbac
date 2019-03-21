@@ -10,6 +10,8 @@ public class SecurityConstant {
 
     public static final String AUTH_SUFFIX = "AUTH_";
 
+    public static final String ROLE_SUFFIX = "ROLE_";
+
     public static final String REMEMBER_ME = "remember-me";
 
     public static final int TOKEN_VALIDITY_SECONDS = 300;
