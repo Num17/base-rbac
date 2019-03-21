@@ -2,6 +2,7 @@ package com.base.config.handler;
 
 import com.base.bean.BaseResponse;
 import com.base.constant.AppConstant;
+import com.base.util.JsonUtil;
 import com.google.gson.Gson;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -23,12 +24,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding(AppConstant.ENCODE);
-        response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
+        response.setContentType(AppConstant.JSON_CONTENT_TYPE);
 
-        //TODO 后续优化在JsonUtil内
-        Gson gson = new Gson();
-        BaseResponse successResponse = BaseResponse.newErrorResponse("未登录!point");
-        String error = gson.toJson(successResponse);
+        BaseResponse successResponse = BaseResponse.newErrorResponse("请登录系统以后操作!");
+        String error = JsonUtil.toJson(successResponse);
 
         PrintWriter out = response.getWriter();
         out.write(error);

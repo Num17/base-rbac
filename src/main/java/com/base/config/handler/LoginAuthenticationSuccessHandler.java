@@ -3,6 +3,7 @@ package com.base.config.handler;
 import com.base.bean.BaseResponse;
 import com.base.config.jwt.JWTUtil;
 import com.base.constant.AppConstant;
+import com.base.util.JsonUtil;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,13 +33,12 @@ public class LoginAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
         response.addHeader(SecurityConstant.HEADER, JWTUtil.builderToken(username));
         response.setStatus(HttpServletResponse.SC_OK);
         response.setCharacterEncoding(AppConstant.ENCODE);
-        response.setContentType(SecurityConstant.JSON_CONTENT_TYPE);
+        response.setContentType(AppConstant.JSON_CONTENT_TYPE);
 
         logger.info("用户[{]]登录成功!", username);
-        //TODO 后续优化在JsonUtil内
-        Gson gson = new Gson();
+
         BaseResponse successResponse = BaseResponse.SUCCESS_RESPONSE;
-        String success = gson.toJson(successResponse);
+        String success = JsonUtil.toJson(successResponse);
         PrintWriter out = response.getWriter();
         out.write(success);
         out.close();
