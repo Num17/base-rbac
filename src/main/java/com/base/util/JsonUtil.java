@@ -7,10 +7,6 @@ public class JsonUtil {
 
     private static Gson gson = GsonSingleton.INSTANCE.getInstance();
 
-    static {
-        System.out.println("test static");
-    }
-
     public static String toJson(Object object) {
         return gson.toJson(object);
     }
