@@ -27,7 +27,7 @@ public class BaseResponse {
     //数据
     private Map<String, Object> data = new HashMap<>();
 
-    public BaseResponse() {
+    private BaseResponse() {
 
     }
 

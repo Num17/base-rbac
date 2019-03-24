@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 
 public class BigDecimalUtil {
 
-    private static final int DEFAULT_SCALE = 2;
+    private static final int DEFAULT_SCALE = 2;// 默认保留位数
     private static final int DEFAULT_ROUNG = BigDecimal.ROUND_HALF_UP;//四舍五入向上取整
 
-    public static BigDecimal valueOf(@NotNull Double value) {
+    private static BigDecimal valueOf(@NotNull Double value) {
         return BigDecimal.valueOf(value);
     }
 
