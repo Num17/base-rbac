@@ -5,6 +5,16 @@ import java.util.Map;
 
 public interface RedisService {
 
+    //key
+    boolean hasKey(String key);
+
+    boolean deleteKey(String key);
+
+    //string method
+    void stringSet(String key, String value);
+
+    String stringGet(String key);
+
     //hash method
     void hashSetFromMap(String key, Map<String, String> map);
 
@@ -13,9 +23,6 @@ public interface RedisService {
     Map<String, String> hashEntries(String key);
 
     List<String> hashValues(String key);
-
-    //string method
-    void stringSet(String key, String value);
 
 
 }

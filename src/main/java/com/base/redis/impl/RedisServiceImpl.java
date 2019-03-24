@@ -14,6 +14,22 @@ public class RedisServiceImpl implements RedisService {
 
     private StringRedisTemplate redisTemplate;
 
+    @Override
+    public boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    @Override
+    public boolean deleteKey(String key) {
+        return redisTemplate.delete(key);
+    }
+
+    @Override
+    public String stringGet(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    @Override
     public void hashSetFromMap(String key, Map<String, String> map) {
         redisTemplate.opsForHash().putAll(key, map);
     }
