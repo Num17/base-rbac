@@ -25,8 +25,6 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     private ResourceService resourceService;
     private RoleResourceService roleResourceService;
     private RedisService redisService;
-    //TODO 已用redis替代
-    private Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
 
     public UrlFilterInvocationSecurityMetadataSource(ResourceService resourceService, RoleResourceService roleResourceService,
                                                      RedisService redisService) {
@@ -37,14 +35,16 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
     // 在Web服务器启动时，提取系统中的所有权限
-    //TODO 后续权限放入redis之中,出现权限变更则动态实时更新
     private void loadResourceDefine() {
         //应当是资源为key， 权限为value。 资源通常为url， 权限就是那些以ROLE_为前缀的角色。 一个资源可以由多个权限来访问。
         List<Resource> allResource = resourceService.getAllResource();
         Set<String> resourceIds = allResource.stream().map(Resource::getResourceId).collect(Collectors.toSet());
         List<RoleResource> roleResources = roleResourceService.getRoleResourceByResourceIds(resourceIds);
         Map<String, List<RoleResource>> resourceIdListMap = roleResources.stream().collect(Collectors.groupingBy(RoleResource::getResourceId));
-        Map<String, String> map = new HashMap<>();
+
+        final Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
+        final Map<String, String> map = new HashMap<>();
+
         for (Resource resource : allResource) {
             String url = resource.getUrl();
 
@@ -78,6 +78,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
 
+        Map<String, String> resourceMap = redisService.hashEntries(URL_KEY);
 
         Iterator<String> iterator = resourceMap.keySet().iterator();
         Collection<ConfigAttribute> configAttributes = Collections.emptyList();
@@ -88,11 +89,6 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 String json = redisService.hashGet(URL_KEY, url);
                 List<SecurityConfig> securityConfigs = JsonUtil.parseJsonArray(json, SecurityConfig.class);
                 configAttributes = securityConfigs.stream().map((e) -> (ConfigAttribute) e).collect(Collectors.toList());
-
-                if (CollectionUtil.isEmpty(configAttributes)) {
-
-                    configAttributes = resourceMap.get(url);
-                }
                 break;
             }
         }
@@ -103,7 +99,12 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         Collection<ConfigAttribute> configAttributes = new HashSet<>();
-        resourceMap.values().forEach(configAttributes::addAll);
+
+        List<String> list = redisService.hashValues(URL_KEY);
+        list.forEach((e) -> {//lambda表达式优化
+            configAttributes.addAll(JsonUtil.parseJsonArray(e, SecurityConfig.class));
+        });
+
         return configAttributes;
     }
 

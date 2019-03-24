@@ -2,9 +2,11 @@ package com.base.redis.impl;
 
 import com.base.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,6 +26,18 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public void stringSet(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
+    }
+
+    @Override
+    public Map<String, String> hashEntries(String key) {
+        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+        return hashOperations.entries(key);
+    }
+
+    @Override
+    public List<String> hashValues(String key) {
+        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+        return hashOperations.values(key);
     }
 
     @Autowired
