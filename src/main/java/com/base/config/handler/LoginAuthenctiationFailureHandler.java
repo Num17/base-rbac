@@ -3,9 +3,7 @@ package com.base.config.handler;
 import com.base.bean.BaseResponse;
 import com.base.constant.AppConstant;
 import com.base.util.JsonUtil;
-import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -19,10 +17,9 @@ import java.io.PrintWriter;
 /**
  * 登录失败处理
  */
+@Slf4j
 @Component
 public class LoginAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-
-    private static Logger logger = LoggerFactory.getLogger(LoginAuthenctiationFailureHandler.class);
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

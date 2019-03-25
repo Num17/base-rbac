@@ -2,6 +2,7 @@ package com.base.config.jwt;
 
 import com.base.config.handler.SecurityConstant;
 import com.base.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -28,7 +30,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         }
 
 //        if (!JWTUtil.checkToken(header)) {
-            //TODO 提示登录
+        //TODO 提示登录
 //            throw new BadCredentialsException("凭证已失效!请重新登录!");
 //        }
 

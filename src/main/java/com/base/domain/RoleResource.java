@@ -1,16 +1,10 @@
 package com.base.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class RoleResource {
 
     private Integer id;
