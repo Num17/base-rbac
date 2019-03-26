@@ -1,5 +1,6 @@
 package com.base.config.security;
 
+import com.base.config.handler.SecurityConstant;
 import com.base.domain.Account;
 import com.base.domain.Role;
 import com.base.service.AccountService;
@@ -29,9 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         final UserDetailsEntity userDetailsEntity = new UserDetailsEntity();
 
         Account account = accountService.getAccountByUserName(username);
-        Optional<Account> optionalAccount = Optional.ofNullable(account);
 
-        if (!optionalAccount.isPresent()) {
+        if (null == account) {
             throw new UsernameNotFoundException("用户未找到!");
         }
 
@@ -50,9 +50,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private Set<SimpleGrantedAuthority> getPermissions(String username) {
         List<Role> roles = roleService.getRoleListByUserName(username);
         final Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
-        roles.forEach((e) -> { //TODO lambda表达式优化
-            simpleGrantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + e.getRoleId()));
-        });
+        roles.forEach((e) ->
+                simpleGrantedAuthorities.add(new SimpleGrantedAuthority(SecurityConstant.ROLE_SUFFIX + e.getRoleId())));
 
         return simpleGrantedAuthorities;
     }

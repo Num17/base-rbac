@@ -26,8 +26,9 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     private RoleResourceService roleResourceService;
     private RedisService redisService;
 
-    public UrlFilterInvocationSecurityMetadataSource(ResourceService resourceService, RoleResourceService roleResourceService,
-                                                     RedisService redisService) {
+    public UrlFilterInvocationSecurityMetadataSource(
+            ResourceService resourceService,
+            RoleResourceService roleResourceService, RedisService redisService) {
         this.resourceService = resourceService;
         this.roleResourceService = roleResourceService;
         this.redisService = redisService;
@@ -101,9 +102,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         Collection<ConfigAttribute> configAttributes = new HashSet<>();
 
         List<String> list = redisService.hashValues(URL_KEY);
-        list.forEach((e) -> {//lambda表达式优化
-            configAttributes.addAll(JsonUtil.parseJsonArray(e, SecurityConfig.class));
-        });
+        list.forEach((e) -> configAttributes.addAll(JsonUtil.parseJsonArray(e, SecurityConfig.class)));
 
         return configAttributes;
     }
