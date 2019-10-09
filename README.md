@@ -1,2 +1,1 @@
 # base-rbac
-just test
