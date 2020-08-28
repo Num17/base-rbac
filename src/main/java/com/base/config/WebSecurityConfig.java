@@ -44,17 +44,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UrlFilterInvocationSecurityMetadataSource securityMetadataSource;
 
-    private DataSource dataSource;   //是在application.properites
+    /**
+     * 是在application.properties
+     */
+    private DataSource dataSource;
 
 
-    //加密工具,默认BCrypt算法加密,加密规则{加密算法名}加密后密码
+    /**
+     * 加密工具,默认BCrypt算法加密,加密规则{加密算法名}加密后密码
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-
-    //记住我功能的token存取器配置
+    /**
+     * 记住我功能的token存取器配置
+     */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -62,7 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return tokenRepository;
     }
 
-    //忽略静态资源访问等
+    /**
+     * 忽略静态资源访问等
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
 //        web.ignoring().antMatchers("/css/**");
@@ -92,20 +100,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //禁用session
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http
-                .formLogin()
-                .loginProcessingUrl(SecurityConstant.LOGIN_URL)//登录URL
-                .successHandler(loginAuthenticationSuccessHandler)//登录成功处理器
-                .failureHandler(loginAuthenctiationFailureHandler)//登录失败处理
-                .permitAll()//不过拦截器
+        http.formLogin()
+                //登录URL
+                .loginProcessingUrl(SecurityConstant.LOGIN_URL)
+                //登录成功处理器
+                .successHandler(loginAuthenticationSuccessHandler)
+                //登录失败处理
+                .failureHandler(loginAuthenctiationFailureHandler)
+                //不过拦截器
+                .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(authenticationAccessDeniedHandler) //权限不足处理
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 未登录处理
+                //权限不足处理
+                .accessDeniedHandler(authenticationAccessDeniedHandler)
+                // 未登录处理
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .logout()
-                .logoutUrl(SecurityConstant.LOGOUT_URL)//登出URL
-                .permitAll()//不过拦截器
+                //登出URL
+                .logoutUrl(SecurityConstant.LOGOUT_URL)
+                //不过拦截器
+                .permitAll()
                 .and()
                 .rememberMe()
                 .rememberMeParameter(SecurityConstant.REMEMBER_ME).userDetailsService(userDetailsService)
@@ -113,7 +128,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(SecurityConstant.TOKEN_VALIDITY_SECONDS)
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated()//必须经过认证以后才能访问
+                //必须经过认证以后才能访问
+                .anyRequest().authenticated()
                 .and()
                 .csrf()
                 .disable();
